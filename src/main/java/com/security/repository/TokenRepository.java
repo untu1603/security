@@ -1,4 +1,5 @@
-package com.security.repository.user;
+package com.security.repository;
 
 public interface TokenRepository {
+
 }
