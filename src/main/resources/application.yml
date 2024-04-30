@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    hikari:
+      connectionTimeout: 20000
+      maximumPoolSize: 5
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: 123
+
+springdoc:
+  swagger-ui:
+    operationsSorter: method
+    path: /swagger-ui/index.html
+
+application:
+  security:
+    jwt:
+      secret-key: 304E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      expiration: 86400000 # a day
+      refresh-token:
+        expiration: 604800000 # 7 days
