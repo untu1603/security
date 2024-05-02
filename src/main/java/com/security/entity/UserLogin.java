@@ -1,10 +1,11 @@
 package com.security.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,8 +15,18 @@ import java.util.UUID;
 @Entity
 @Data
 @Table(name = "users")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserLogin implements UserDetails {
     @Id
+    @GenericGenerator(
+            name = "UUIDGenerator",
+            strategy = "uuid2"
+    )
+    @GeneratedValue(
+            generator = "UUIDGenerator"
+    )
     private UUID userId;
 
     @Column(unique=true)
