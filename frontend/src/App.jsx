@@ -1,7 +1,8 @@
 import routes from "./routes";
 import {RouterProvider,  createBrowserRouter} from "react-router-dom";
-import Page404 from "./Page404.jsx";
-import Layout from "././Layout.jsx";
+import Page404 from "./page/Page404.jsx";
+import Layout from "./page/Layout.jsx";
+
 function App() {
     const router = createBrowserRouter([
         {
