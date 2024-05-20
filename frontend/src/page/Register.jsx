@@ -4,15 +4,19 @@ import "../main.scss"
 
 import {useState} from "react";
 import Repository from "../api/Repository.js";
-import axios from "axios";
-import data from "bootstrap/js/src/dom/data.js";
 const inputs = {
     name: "",
     username: "",
     password: "",
+    confirmPassword: ""
 };
 export default function Register(){
     const [values, setValues] = useState(inputs);
+    const [error, setError] = useState({
+        username: "",
+        password: "",
+        confirmPassword: "",
+    });
     const handleSubmit = (event) => {
         event.preventDefault();
         Repository.post('auth/register',values).then(response =>{
@@ -20,16 +24,51 @@ export default function Register(){
         })
         console.log(values);
     }
-    const handleS = (event) => {
-        event.preventDefault();
-        axios.get("https://accounts.google.com/o/oauth2/v2/auth",)
-        console.log(values);
-    }
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setValues({
             ...values,
             [name]: value,
+        });
+        validateInput(e)
+    };
+    const validateInput = (e) => {
+        let { name, value } = e.target;
+        setError((prev) => {
+            const stateObj = { ...prev, [name]: '' };
+
+            switch (name) {
+                case 'username':
+                    if (!value) {
+                        stateObj[name] = 'Please enter Username.';
+                    }
+                    break;
+                case 'password':
+                    if (!value) {
+                        stateObj[name] = 'Please enter Password.';
+                    } else if (values.confirmPassword && value !== values.confirmPassword) {
+                        stateObj['confirmPassword'] =
+                            'Password and Confirm Password does not match.';
+                    } else {
+                        stateObj['confirmPassword'] = values.confirmPassword
+                            ? ''
+                            : error.confirmPassword;
+                    }
+                    break;
+
+                case 'confirmPassword':
+                    if (!value) {
+                        stateObj[name] = <span className="text-danger f-s-12">Please enter Confirm Password.</span>;
+                    } else if (values.password && value !== values.password) {
+                        stateObj[name] = <span className="text-danger f-s-12">Password and Confirm Password does not match.</span>;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+
+            return stateObj;
         });
     };
     return <>
@@ -45,7 +84,7 @@ export default function Register(){
                                value={values.name}
                                onChange={handleInputChange}
                                placeholder="Type your name"></input>
-                        <span className="focus-inputRegis"></span>
+                        <span className="focus-input100"></span>
                     </div>
                     <div className="wrap-input100 validate-input m-b-23" data-validate="Username is reauired">
                         <span className="label-input100">Username</span>
@@ -53,7 +92,7 @@ export default function Register(){
                                value={values.username}
                                onChange={handleInputChange}
                                placeholder="Type your username"></input>
-                        <span className="focus-inputRegis"></span>
+                        <span className="focus-input100"></span>
                     </div>
                     <div className="wrap-input100 validate-input m-b-23" data-validate="Password is required">
                         <span className="label-input100">Password</span>
@@ -61,14 +100,21 @@ export default function Register(){
                                value={values.password}
                                onChange={handleInputChange}
                                placeholder="Type your password"></input>
-                        <span className="focus-inputRegis"></span>
+                        <span className="focus-input100"></span>
+
                     </div>
                     <div className="wrap-input100 validate-input m-b-23" data-validate="Password is required">
                         <span className="label-input100">Repeat Password</span>
-                        <input className="inputRegis" type="password" name="pass"
+                        <input className="inputRegis" type="password" name="confirmPassword"
+                               value={values.confirmPassword}
+                               onChange={handleInputChange}
+                               onBlur={validateInput}
                                placeholder="Type your password"></input>
-                        <span className="focus-inputRegis"></span>
+                        <span className="focus-input100"></span>
                     </div>
+                    {error.confirmPassword && (
+                        <span className="err">{error.confirmPassword}</span>
+                    )}
                     <div className="text-right p-t-8 p-b-31">
                     </div>
                     <div className="container-login100-form-btn">
