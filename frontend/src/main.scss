@@ -27,3 +27,56 @@
     font-size: #{$i}px;
   }
 }
+.flex{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.flex-col-c {
+  @extend .flex;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  -o-flex-direction: column;
+  flex-direction: column;
+  -ms-align-items: center;
+  align-items: center;
+}
+.flex-c-m {
+  @extend .flex;
+  justify-content: center;
+  -ms-align-items: center;
+  align-items: center;
+}
+.login100-form-btn {
+  font-size: 16px;
+  color: #fff;
+  line-height: 1.2;
+  text-transform: uppercase;
+  @extend .flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  width: 100%;
+  height: 50px;
+}
+.container-login100-form-btn {
+  @extend .flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.container-login100 {
+  background-image: url(https://colorlib.com/etc/lf/Login_v4/images/bg-01.jpg);
+  width: 100%;
+  min-height: 100vh;
+  @extend .flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}

@@ -1,4 +1,3 @@
-
 a {
     font-size: 14px;
     line-height: 1.7;
@@ -33,39 +32,16 @@ textarea {
 textarea:focus, input:focus {
     border-color: transparent !important;
 }
-input:focus::-webkit-input-placeholder { color:transparent; }
-input:focus:-moz-placeholder { color:transparent; }
-input:focus::-moz-placeholder { color:transparent; }
-input:focus:-ms-input-placeholder { color:transparent; }
-
-textarea:focus::-webkit-input-placeholder { color:transparent; }
-textarea:focus:-moz-placeholder { color:transparent; }
-textarea:focus::-moz-placeholder { color:transparent; }
-textarea:focus:-ms-input-placeholder { color:transparent; }
-
-input::-webkit-input-placeholder { color: #adadad;}
-input:-moz-placeholder { color: #adadad;}
-input::-moz-placeholder { color: #adadad;}
-input:-ms-input-placeholder { color: #adadad;}
-
-textarea::-webkit-input-placeholder { color: #adadad;}
-textarea:-moz-placeholder { color: #adadad;}
-textarea::-moz-placeholder { color: #adadad;}
-textarea:-ms-input-placeholder { color: #adadad;}
 
 /*---------------------------------------------*/
 button {
-    outline: none !important;
+    outline: none ;
     border: none;
     background: transparent;
 }
 
 button:hover {
     cursor: pointer;
-}
-
-iframe {
-    border: none !important;
 }
 
 .txt1 {
@@ -85,29 +61,6 @@ iframe {
 .bg2 {background-color: #1da1f2}
 .bg3 {background-color: #ea4335}
 
-/*//////////////////////////////////////////////////////////////////
-[ login ]*/
-.limiter {
-    width: 100%;
-    margin: 0 auto;
-}
-.container-login100 {
-    background-image: url(https://colorlib.com/etc/lf/Login_v4/images/bg-01.jpg);
-    width: 100%;
-    min-height: 100vh;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    padding: 15px;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-}
 .wrap-login100 {
     width: 500px;
     background: #fff;
@@ -205,31 +158,12 @@ iframe {
 .inputRegis:focus + .focus-input100::before {
     width: 100%;
 }
-.has-val.input100 + .focus-input100::before {
-    width: 100%;
-}
-
 .input100:focus + .focus-input100::after {
     color: #a64bf4;
 }
 
-.has-val.input100 + .focus-input100::after {
-    color: #a64bf4;
-}
-
-
 /*------------------------------------------------------------------
 [ Button ]*/
-.container-login100-form-btn {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
 .wrap-login100-form-btn {
     width: 100%;
     display: block;
@@ -263,23 +197,6 @@ iframe {
     -o-transition: all 0.4s;
     -moz-transition: all 0.4s;
     transition: all 0.4s;
-}
-
-.login100-form-btn {
-    font-size: 16px;
-    color: #fff;
-    line-height: 1.2;
-    text-transform: uppercase;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 20px;
-    width: 100%;
-    height: 50px;
 }
 
 .wrap-login100-form-btn:hover .login100-form-bgbtn {
@@ -333,28 +250,3 @@ iframe {
 .text-left {text-align: left;}
 .text-right {text-align: right;}
 .text-middle {vertical-align: middle;}
-
-.flex-col-c {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-flex-direction: column;
-    -moz-flex-direction: column;
-    -ms-flex-direction: column;
-    -o-flex-direction: column;
-    flex-direction: column;
-    -ms-align-items: center;
-    align-items: center;
-}
-.flex-c-m {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: flex;
-    justify-content: center;
-    -ms-align-items: center;
-    align-items: center;
-}
