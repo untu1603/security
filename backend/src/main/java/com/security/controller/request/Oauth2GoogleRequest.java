@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
-//  private String name;
-  private String username;
-  private String password;
+public class Oauth2GoogleRequest {
+    private String code;
 }
