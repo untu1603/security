@@ -1,5 +1,11 @@
 package com.security.controller.response;
 
-public class LoginResponse extends AuthenticationResponse {
+import lombok.*;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class LoginResponse extends AuthenticationResponse {
+    private String name;
 }

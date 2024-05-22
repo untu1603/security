@@ -7,6 +7,6 @@ export default axios.create({
 export function callApiHeaders(headers) {
     return axios.create({
         baseURL: import.meta.env.VITE_BASE_DOMAIN,
-        headers: headers
+        headers: localStorage.getItem()
     })
 }

@@ -18,22 +18,25 @@ import com.security.repository.UserLoginRepository;
 import com.security.service.AuthenticationService;
 import com.security.service.JwtService;
 import com.security.util.CookieUtil;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.io.FileReader;
 import java.io.IOException;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
+    @Value("${spring.security.oauth2.client.registration.google.client-id}")
+    private String googleClientId;
+    @Value("${spring.security.oauth2.client.registration.google.client-secret}")
+    private String googleClientSecret;
     private final UserLoginRepository repository;
     private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
@@ -42,6 +45,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public AuthenticationResponse register(HttpServletResponse servletResponse,RegisterRequest request) {
         var user = UserLogin.builder()
+                .name(request.getName())
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
@@ -99,14 +103,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponse loginOauth2Google(Oauth2GoogleRequest request) throws IOException {
-        GoogleClientSecrets clientSecrets =
-                GoogleClientSecrets.load(GsonFactory.getDefaultInstance(), new FileReader("E:\\New folder\\sercurity\\backend\\src\\main\\resources\\cert\\client_secret.json"));
+//        GoogleClientSecrets clientSecrets =
+//                GoogleClientSecrets.load(GsonFactory.getDefaultInstance(), new FileReader("E:\\New folder\\sercurity\\backend\\src\\main\\resources\\cert\\client_secret.json"));
         GoogleTokenResponse tokenResponse =
                 new GoogleAuthorizationCodeTokenRequest(
                         new NetHttpTransport(),
                         GsonFactory.getDefaultInstance(),
-                        clientSecrets.getDetails().getClientId(),
-                        clientSecrets.getDetails().getClientSecret(),
+                        googleClientId,
+                        googleClientSecret,
                         request.getCode(),"http://localhost:5173").execute();
         String accessToken = tokenResponse.getAccessToken();
         GoogleIdToken idToken = tokenResponse.parseIdToken();
@@ -117,6 +121,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponse refreshToken(String token) {
+
         return null;
     }
 }

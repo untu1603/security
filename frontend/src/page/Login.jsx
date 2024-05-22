@@ -28,8 +28,8 @@ export default function Login(){
     };
     return <>
         <div className="container-login100" style={{backgroundImage: "url(https://colorlib.com/etc/lf/Login_v4/images/bg-01.jpg)"}}>
-            <div className="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-                <form className="login100-form validate-form">
+            <div className="wrap-500 p-l-55 p-r-55 p-t-65 p-b-54">
+                <form>
 					<span className="login100-form-title p-b-49">
 						Login
 					</span>

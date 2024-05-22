@@ -29,6 +29,8 @@ public class UserLogin implements UserDetails {
     )
     private UUID userId;
 
+    private String name;
+
     @Column(unique=true)
     private String username;
 

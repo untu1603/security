@@ -61,18 +61,10 @@ button:hover {
 .bg2 {background-color: #1da1f2}
 .bg3 {background-color: #ea4335}
 
-.wrap-login100 {
-    width: 500px;
-    background: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-}
+
 /*------------------------------------------------------------------
 [ Form ]*/
 
-.login100-form {
-    width: 100%;
-}
 
 .login100-form-title {
     display: block;
@@ -223,15 +215,6 @@ button:hover {
     background-color: #333333;
 }
 
-/*//////////////////////////////////////////////////////////////////
-[ Responsive ]*/
-
-@media (max-width: 576px) {
-    .wrap-login100 {
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-}
 
 /*[ TEXT ]
 ///////////////////////////////////////////////////////////

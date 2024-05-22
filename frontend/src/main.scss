@@ -80,3 +80,16 @@
   background-position: center;
   background-size: cover;
 }
+.wrap {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+  &-500 {
+    @extend .wrap;
+    width: 500px;
+  }
+  &-25p {
+    @extend .wrap;
+    width: 25%;
+  }
+}
