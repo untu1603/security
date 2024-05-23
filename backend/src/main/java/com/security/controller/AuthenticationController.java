@@ -5,6 +5,7 @@ import com.security.controller.request.Oauth2GoogleRequest;
 import com.security.controller.request.RegisterRequest;
 import com.security.controller.response.AuthenticationResponse;
 import com.security.service.AuthenticationService;
+import com.security.util.CookieUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -39,9 +40,9 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.loginOauth2Google(request));
     }
     @GetMapping("/resetToken")
-    public ResponseEntity<String> resetToken(
+    public ResponseEntity<?> resetToken(HttpServletRequest request
     ) {
 
-        return ResponseEntity.ok("Hello");
+        return ResponseEntity.ok(service.refreshToken(CookieUtil.getCookie(request, "refreshToken").getFirst().getValue()));
     }
 }
