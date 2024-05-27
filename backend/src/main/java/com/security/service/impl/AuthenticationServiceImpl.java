@@ -6,6 +6,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
+import com.security.constant.TokenName;
 import com.security.constant.TokenType;
 import com.security.controller.request.LoginRequest;
 import com.security.controller.request.Oauth2GoogleRequest;
@@ -28,6 +29,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -50,25 +53,30 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
         var savedUser = repository.save(user);
-        var jwtToken = jwtService.generateToken(user);
+        var accessToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
-        saveUserToken(savedUser, jwtToken);
+        saveUserToken(savedUser, accessToken, refreshToken);
         CookieUtil.addCookie(servletResponse,"refreshToken",refreshToken,360);
-        CookieUtil.addCookie(servletResponse,"jwtToken",jwtToken,20,false);
+        CookieUtil.addCookie(servletResponse,"accessToken",accessToken,20,false);
         return AuthenticationResponse.builder()
-                .accessToken(jwtToken)
+                .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
     }
-    private void saveUserToken(UserLogin user, String jwtToken) {
-        var token = Token.builder()
+    private void saveUserToken(UserLogin user, String jwtToken, String refreshToken) {
+        List<Token> tokens= new ArrayList<>();
+        tokens.add(createToken(user,TokenName.ACCESSTOKEN,jwtToken));
+        tokens.add(createToken(user,TokenName.REFRESHTOKEN,refreshToken));
+        tokenRepository.saveAll(tokens);
+    }
+    private Token createToken(UserLogin user,TokenName nameToken, String value){
+        return Token.builder()
+                .name(nameToken)
                 .user(user)
-                .token(jwtToken)
+                .token(value)
                 .tokenType(TokenType.BEARER)
-                .expired(false)
                 .revoked(false)
                 .build();
-        tokenRepository.save(token);
     }
     @Override
     public AuthenticationResponse loginUser(HttpServletResponse servletResponse, LoginRequest request) {
@@ -80,15 +88,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         );
         var user = repository.findByUsername(request.getUserName())
                 .orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
+        var accessToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
-        saveUserToken(user, jwtToken);
+        saveUserToken(user, accessToken, refreshToken);
         CookieUtil.addCookie(servletResponse,"refreshToken",refreshToken,360);
-        CookieUtil.addCookie(servletResponse,"jwtToken",jwtToken,20,false);
+        CookieUtil.addCookie(servletResponse,"accessToken",accessToken,20,false);
         return AuthenticationResponse.builder()
-                .accessToken(jwtToken)
-                .refreshToken(refreshToken)
+
                 .build();
     }
     private void revokeAllUserTokens(UserLogin user) {
@@ -103,24 +110,24 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponse loginOauth2Google(Oauth2GoogleRequest request) throws IOException {
-//        GoogleClientSecrets clientSecrets =
-//                GoogleClientSecrets.load(GsonFactory.getDefaultInstance(), new FileReader("E:\\New folder\\sercurity\\backend\\src\\main\\resources\\cert\\client_secret.json"));
         GoogleTokenResponse tokenResponse =
                 new GoogleAuthorizationCodeTokenRequest(
                         new NetHttpTransport(),
                         GsonFactory.getDefaultInstance(),
                         googleClientId,
                         googleClientSecret,
-                        request.getCode(),"http://localhost:5173").execute();
+                        request.getCode(),"http://localhost:5174").execute();
         String accessToken = tokenResponse.getAccessToken();
+        String refreshToken = tokenResponse.getRefreshToken();
         GoogleIdToken idToken = tokenResponse.parseIdToken();
         GoogleIdToken.Payload payload = idToken.getPayload();
-        log.info("data"+tokenResponse.getIdToken());
+        log.info("data"+ payload.getSubject());
         return null;
     }
 
     @Override
     public AuthenticationResponse refreshToken(String token) {
+        final String username = jwtService.extractUsername(token);
 
         return null;
     }

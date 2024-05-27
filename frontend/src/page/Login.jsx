@@ -1,15 +1,17 @@
 import "../main.css"
 import "../main.scss"
 
-import {Link} from "react-router-dom";
+import {Link,useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {useGoogleLogin} from "@react-oauth/google";
+import call from "./Register.jsx"
 
 const inputs = {
     username: "",
     password: "",
 };
 export default function Login(){
+    const navigate = useNavigate()
     const loginGoogle = useGoogleLogin({
         onSuccess: codeResponse => console.log(codeResponse),
         flow: 'auth-code',
@@ -18,6 +20,16 @@ export default function Login(){
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log(values);
+        call.post("/login",values)
+            .then( response => {
+                console.log(response)
+                navigate("/home")
+            }
+        ).catch(
+            e => {
+                console.log(e)
+            }
+        )
     }
     const handleInputChange = (e) => {
         const { name, value } = e.target;

@@ -1,5 +1,6 @@
 package com.security.entity;
 
+import com.security.constant.TokenName;
 import com.security.constant.TokenType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,14 +17,14 @@ public class Token {
     @Id
     @GeneratedValue
     public Integer id;
-
-    public String name;
+    @Enumerated(EnumType.STRING)
+    public TokenName name;
 
     @Column(unique = true)
     public String token;
 
     @Enumerated(EnumType.STRING)
-    public TokenType tokenType = TokenType.BEARER;
+    public TokenType tokenType;
 
     public boolean revoked;
 

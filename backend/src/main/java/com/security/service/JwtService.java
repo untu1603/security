@@ -88,4 +88,8 @@ public class JwtService {
     private SecretKey getSignInKey() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
     }
+
+    public String getPayload(String token){
+        return token.split("\\.")[1];
+    }
 }
